@@ -1,14 +1,26 @@
 import styled from "styled-components";
-//import { useState } from "react";
-//import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function RegistersPage() {
+
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+
+    function toForward(route) {
+        setIsLoading(true);
+        setTimeout(() => navigate(route), 2000);
+    }
 
     return (
         <Container>
             <Top>
                 <h2>Olá, Fulano</h2>
-                <ion-icon name="exit-outline"></ion-icon>
+                <ion-icon
+                    name="exit-outline"
+                    onClick={() => toForward("/")}>
+
+                </ion-icon>
             </Top>
             <Registers>
                 <span>
@@ -16,14 +28,18 @@ function RegistersPage() {
                 </span>
             </Registers>
             <EntranceControl>
-                <div>
+                <button
+                    disabled={isLoading}
+                    onClick={() => toForward("/new-entry")}>
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <h3>Nova entrada</h3>
-                </div>
-                <div>
+                </button>
+                <button
+                    disabled={isLoading}
+                    onClick={() => toForward("/new-exit")}>
                     <ion-icon name="remove-circle-outline"></ion-icon>
                     <h3>Nova saída</h3>
-                </div>
+                </button>
             </EntranceControl>
         </Container>
     )
@@ -98,7 +114,7 @@ const EntranceControl = styled.div`
     justify-content: space-between;
     align-items: center;
 
-    div {
+    button {
         width: 155px;
         height: 114px;
         background: #A328D6;
@@ -107,6 +123,7 @@ const EntranceControl = styled.div`
         flex-direction: column;
         justify-content: space-between;
         cursor: pointer;
+        border: none;
 
         h3 {
             width: 64px;

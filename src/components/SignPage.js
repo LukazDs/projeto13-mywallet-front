@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Loading from "../loaders/Loading";
 
 function SignPage() {
 
@@ -17,7 +18,7 @@ function SignPage() {
 
         setIsLoading(true)
 
-        setTimeout(() => navigate("/noexist"), 5000)
+        setTimeout(() => navigate("/"), 5000)
 
     }
 
@@ -54,10 +55,10 @@ function SignPage() {
                     required />
 
                 <button disabled={isLoading}>
-                    {isLoading ? "Inativo" : "Entrar"}
+                    {isLoading ? <Loading /> : "Entrar"}
                 </button>
             </Forms>
-            <Link to={"/noexist"}>Primeira vez? Cadastre-se!</Link>
+            <Link to={"/sign-in"}>Primeira vez? Cadastre-se!</Link>
         </Container>
     )
 }

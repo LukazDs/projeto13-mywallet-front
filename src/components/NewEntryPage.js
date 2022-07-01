@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import Loading from "../loaders/Loading";
+import { useNavigate } from "react-router-dom";
 
-function LoginPage() {
+function NewEntryPage() {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [description, setDescription] = useState("");
+    const [value, setValue] = useState("");
+
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -15,38 +15,37 @@ function LoginPage() {
 
         setIsLoading(true)
 
-        setTimeout(() => navigate("/registers"), 5000) 
+        setTimeout(() => navigate("/registers"), 5000)
 
     }
 
     return (
         <Container>
-            <h1>MyWallet</h1>
+            <h2>Nova entrada</h2>
             <Forms onSubmit={login}>
-                <input type="email" 
-                    onChange={e => setEmail(e.target.value)}
-                    value={email}
+                <input type="number"
+                    onChange={e => setValue(e.target.value)}
+                    value={value}
                     disabled={isLoading}
-                    placeholder='Email'
+                    placeholder="Valor"
                     required />
 
-                <input type="password" 
-                    onChange={e => setPassword(e.target.value)}
-                    value={password}
+                <input type="text"
+                    onChange={e => setDescription(e.target.value)}
+                    value={description}
                     disabled={isLoading}
-                    placeholder='Senha' 
+                    placeholder="Description"
                     required />
 
                 <button disabled={isLoading}>
-                    {isLoading ? <Loading /> : "Entrar"}
+                    {isLoading ? "Inativo" : "Salvar Entrada"}
                 </button>
             </Forms>
-            <Link to={"/sign-in"}>Primeira vez? Cadastre-se!</Link>
         </Container>
     )
 }
 
-export default LoginPage;
+export default NewEntryPage;
 
 const Container = styled.div`
     width: 100%;
@@ -56,27 +55,18 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-
-    h1 {
-        font-family: 'Saira Stencil One';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 32px;
-        line-height: 50px;
-
-        color: #FFFFFF;
-    }
-
-    a {
+    
+    h2 {
         font-family: 'Raleway';
         font-style: normal;
         font-weight: 700;
-        font-size: 15px;
-        line-height: 18px;
+        font-size: 26px;
+        line-height: 31px;
 
         color: #FFFFFF;
     }
-`
+`;
+
 const Forms = styled.form`
     width: 303px;
     height: 222px;
@@ -117,4 +107,4 @@ const Forms = styled.form`
         background: #a103fc;
         border: none;
     }
-`
+`;
