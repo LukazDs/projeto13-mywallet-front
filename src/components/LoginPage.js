@@ -14,7 +14,7 @@ function LoginPage() {
 
         setIsLoading(true)
 
-        setTimeout(() => navigate("/noexist"), 5000) 
+        setTimeout(() => navigate("/registers"), 5000) 
 
     }
 
