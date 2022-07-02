@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Loading from "../loaders/Loading";
+import axios from "axios";
 
 function SignPage() {
 
@@ -14,11 +15,21 @@ function SignPage() {
     const navigate = useNavigate();
 
     function login(event) {
-        event.preventDefault()
 
+        event.preventDefault()
         setIsLoading(true)
 
-        setTimeout(() => navigate("/"), 5000)
+        if (confirmPassword !== password) {
+            alert("Senha e confirme senha são diferentes!");
+            setIsLoading(false);
+            return;
+        }
+
+        const URL = "http://localhost:5000/sign-up";
+        const body = { name, password, email }
+
+        const promise = axios.post(URL, body, {})
+        promise.then(() => { setIsLoading(false); navigate("/") })
 
     }
 
@@ -55,10 +66,10 @@ function SignPage() {
                     required />
 
                 <button disabled={isLoading}>
-                    {isLoading ? <Loading /> : "Entrar"}
+                    {isLoading ? <Loading /> : "Cadastrar"}
                 </button>
             </Forms>
-            <Link to={"/sign-in"}>Primeira vez? Cadastre-se!</Link>
+            <Link to={"/"}>Já tem uma conta? Entre agora!</Link>
         </Container>
     )
 }
