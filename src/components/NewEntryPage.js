@@ -1,22 +1,32 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
 
 function NewEntryPage() {
 
     const [description, setDescription] = useState("");
     const [value, setValue] = useState("");
 
+
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const { token } = useContext(UserContext);
 
     function login(event) {
         event.preventDefault()
 
         setIsLoading(true)
 
-        setTimeout(() => navigate("/registers"), 5000)
+        const URL = "http://localhost:5000/insert-value?type=add";
+        const body = { description, value };
+        
+        const config = { headers: { "Authorization": `Bearer ${token}` } };
+        const promise = axios.post(URL, body, config);
 
+        promise.then(res => { setIsLoading(false); navigate("/registers") })
+            .catch(err => { alert(err.response.statusText); navigate("/") });
     }
 
     return (
@@ -34,7 +44,7 @@ function NewEntryPage() {
                     onChange={e => setDescription(e.target.value)}
                     value={description}
                     disabled={isLoading}
-                    placeholder="Description"
+                    placeholder="Descrição"
                     required />
 
                 <button disabled={isLoading}>

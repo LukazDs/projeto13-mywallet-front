@@ -13,12 +13,19 @@ function RegistersPage() {
     const { token } = useContext(UserContext);
 
     useEffect(() => {
-        setIsLoading(true);
+        setIsLoading(false);
         const URL = "http://localhost:5000/userdata";
         const config = { headers: { "Authorization": `Bearer ${token}` } };
         const promise = axios.get(URL, config);
-        promise.then(res => {setRegisters(res.data); setIsLoading(false); navigate("/registers")}).catch(err =>  {alert(err.response.statusText); navigate("/")});
-        console.log(registers);
+
+        promise
+        .then(res => { 
+                setRegisters(res.data); 
+                setIsLoading(false); 
+                navigate("/registers") })
+        .catch(err => { 
+                alert(err.response.statusText); 
+                navigate("/") });
     }, [])
 
     return (
@@ -29,15 +36,18 @@ function RegistersPage() {
             </Top>
             <Registers>
                 <span>
-                    {registers.length === 0 
-                        ? "Não há registros de entrada ou saída" 
-                        : registers.map(v => {<p>`${v.name}`</p>})}
+                    {registers.length === 0
+                        ? "Não há registros de entrada ou saída"
+                        : registers.map((v, i) => 
+                            <p key={i}>
+                                {v.description} ${v.value}
+                            </p>)}
                 </span>
             </Registers>
             <EntranceControl>
                 <button
                     disabled={isLoading}
-                    onClick={() => console.log("/new-entry")}>
+                    onClick={() => navigate("/new-entry")}>
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <h3>Nova entrada</h3>
                 </button>
