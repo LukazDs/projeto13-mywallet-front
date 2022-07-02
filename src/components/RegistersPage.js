@@ -1,42 +1,47 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
 
 function RegistersPage() {
 
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [registers, setRegisters] = useState([])
 
-    function toForward(route) {
+    const { token } = useContext(UserContext);
+
+    useEffect(() => {
         setIsLoading(true);
-        setTimeout(() => navigate(route), 2000);
-    }
+        const URL = "http://localhost:5000/userdata";
+        const config = { headers: { "Authorization": `Bearer ${token}` } };
+        const promise = axios.get(URL, config);
+        promise.then(res => {setRegisters(res.data); setIsLoading(false); navigate("/registers")}).catch(err =>  {alert(err.response.statusText); navigate("/")});
+        console.log(registers);
+    }, [])
 
     return (
         <Container>
             <Top>
                 <h2>Olá, Fulano</h2>
-                <ion-icon
-                    name="exit-outline"
-                    onClick={() => toForward("/")}>
-
-                </ion-icon>
+                <ion-icon name="exit-outline"></ion-icon>
             </Top>
             <Registers>
                 <span>
-                    Não há registros de entrada ou saída
+                    {registers.length === 0 
+                        ? "Não há registros de entrada ou saída" 
+                        : registers.map(v => {<p>`${v.name}`</p>})}
                 </span>
             </Registers>
             <EntranceControl>
                 <button
                     disabled={isLoading}
-                    onClick={() => toForward("/new-entry")}>
+                    onClick={() => console.log("/new-entry")}>
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <h3>Nova entrada</h3>
                 </button>
-                <button
-                    disabled={isLoading}
-                    onClick={() => toForward("/new-exit")}>
+                <button disabled={isLoading} >
                     <ion-icon name="remove-circle-outline"></ion-icon>
                     <h3>Nova saída</h3>
                 </button>

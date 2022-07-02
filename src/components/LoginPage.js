@@ -1,12 +1,17 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Loading from "../loaders/Loading";
+import axios from "axios";
+import UserContext from '../contexts/UserContext';
 
 function LoginPage() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const { setToken } = useContext(UserContext);
+
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -15,7 +20,13 @@ function LoginPage() {
 
         setIsLoading(true)
 
-        setTimeout(() => navigate("/registers"), 5000) 
+        const URL = "http://localhost:5000/sign-in";
+        const body = { password, email }
+
+        const promise = axios.post(URL, body)
+
+        promise.then((res) => { setToken(res.data.token); setIsLoading(false); navigate("/registers") })
+            .catch(err => { setIsLoading(false); alert(err.response.statusText); })
 
     }
 
@@ -23,18 +34,18 @@ function LoginPage() {
         <Container>
             <h1>MyWallet</h1>
             <Forms onSubmit={login}>
-                <input type="email" 
+                <input type="email"
                     onChange={e => setEmail(e.target.value)}
                     value={email}
                     disabled={isLoading}
                     placeholder='Email'
                     required />
 
-                <input type="password" 
+                <input type="password"
                     onChange={e => setPassword(e.target.value)}
                     value={password}
                     disabled={isLoading}
-                    placeholder='Senha' 
+                    placeholder='Senha'
                     required />
 
                 <button disabled={isLoading}>

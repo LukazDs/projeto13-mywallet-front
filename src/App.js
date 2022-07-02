@@ -6,18 +6,27 @@ import RegistersPage from "./components/RegistersPage";
 import NewEntryPage from "./components/NewEntryPage";
 import NewExitPage from "./components/NewExitPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import UserContext from "./contexts/UserContext";
+import React from "react";
+
+
 
 function App() {
+
+    const [token, setToken] = React.useState("");
+
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route path="/sign-in" element={<SignPage />} />
-                <Route path="/registers" element={<RegistersPage />} />
-                <Route path="/new-entry" element={<NewEntryPage />} />
-                <Route path="/new-exit" element={<NewExitPage />} />
-            </Routes>
-        </BrowserRouter>
+        <UserContext.Provider value={{ token, setToken }}>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<LoginPage />} />
+                    <Route path="/sign-in" element={<SignPage />} />
+                    <Route path="/registers" element={<RegistersPage />} />
+                    <Route path="/new-entry" element={<NewEntryPage />} />
+                    <Route path="/new-exit" element={<NewExitPage />} />
+                </Routes>
+            </BrowserRouter>
+        </UserContext.Provider>
     )
 }
 
