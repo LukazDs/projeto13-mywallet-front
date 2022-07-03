@@ -2,15 +2,17 @@ import styled from "styled-components";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
+import Loading from "../loaders/Loading";
 import axios from "axios";
 
 function RegistersPage() {
 
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const [registers, setRegisters] = useState([])
 
-    const { token } = useContext(UserContext);
+    const [registers, setRegisters] = useState([]);
+    const { token, name, setName } = useContext(UserContext);
+    const [result, setResult] = useState(0);
 
     useEffect(() => {
         setIsLoading(false);
@@ -19,30 +21,58 @@ function RegistersPage() {
         const promise = axios.get(URL, config);
 
         promise
-        .then(res => { 
-                setRegisters(res.data); 
-                setIsLoading(false); 
-                navigate("/registers") })
-        .catch(err => { 
-                alert(err.response.statusText); 
-                navigate("/") });
+            .then(res => {
+                setRegisters(res.data.userData);
+                setIsLoading(false);
+                setName(res.data.name);
+                navigate("/registers");
+                resultValue()
+            })
+            .catch(err => {
+                alert(err.response.statusText);
+                navigate("/")
+            });
     }, [])
+
+    function resultValue () {
+        let cont = 0
+        for(let i = 0; i < registers.length; i ++) {
+            if(registers[i].type === "add") {
+                cont += Number(registers[i].value);
+            } else {
+                cont -= Number(registers[i].value);
+            }
+        }
+        return cont;
+    }
+    
 
     return (
         <Container>
             <Top>
-                <h2>Olá, Fulano</h2>
-                <ion-icon name="exit-outline"></ion-icon>
+                <h2>Olá, {name}</h2>
+                {!isLoading
+                    ? <ion-icon name="exit-outline"></ion-icon>
+                    : <Loading />}
             </Top>
             <Registers>
-                <span>
-                    {registers.length === 0
-                        ? "Não há registros de entrada ou saída"
-                        : registers.map((v, i) => 
-                            <p key={i}>
-                                {v.description} ${v.value}
-                            </p>)}
-                </span>
+                {registers.length === 0
+                    ? <span>Não há registros de entrada ou saída</span>
+                    : <Item>
+                       {registers.map((v, i) =>  
+                        <Element key={i} licensed={v.type}>
+                            <span className="time">{v.time}</span>
+                            <span className="description">{v.description}</span>
+                            <span className="value">{v.value},00</span>
+                        </Element>)}
+                        
+                    </Item>}
+                <Result isPositive={resultValue()}>
+                    <span className="text">SALDO</span> 
+                    <span className="value-result">{resultValue()}</span>
+                </Result>
+
+
             </Registers>
             <EntranceControl>
                 <button
@@ -51,7 +81,9 @@ function RegistersPage() {
                     <ion-icon name="add-circle-outline"></ion-icon>
                     <h3>Nova entrada</h3>
                 </button>
-                <button disabled={isLoading} >
+                <button
+                    disabled={isLoading}
+                    onClick={() => navigate("/new-exit")} >
                     <ion-icon name="remove-circle-outline"></ion-icon>
                     <h3>Nova saída</h3>
                 </button>
@@ -101,11 +133,11 @@ const Registers = styled.div`
     font-size: 26px;
     border-radius: 5px;
     background-color: #FFFFFF;
-    overflow-y: scroll;
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     span {
         width: 180px;
@@ -117,9 +149,97 @@ const Registers = styled.div`
         text-align: center;
 
         color: #868686;
-        word-break: wrap;
     }
 `;
+
+const Result = styled.div`
+    width: 326px;
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .value-result {
+        text-align: right;
+        margin: 10px;
+        color: ${props => props.isPositive >= 0 ? "green" : "red"};
+    }
+
+    .text {
+        text-align: left;
+        margin: 10px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 17px;
+        line-height: 20px;
+        color: #000000;
+    }
+`; 
+
+const Item = styled.div`
+    width: 100%;
+    height: 370px;
+    overflow-y: scroll;
+`;
+
+const Element = styled.p`
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0px;
+
+    .time {
+        width: 48px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
+
+        color: gray;
+    }
+
+    .description {
+        width: 145px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+        word-wrap: break-word;
+
+        color: black;
+    }
+
+    .value {
+        width: 62px;
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
+
+        color: ${props => props.licensed === "add" ? "green" : "red"};
+    }
+
+    .items-middle {
+        width: 145px;
+        background-color: yellow;
+
+        font-family: 'Raleway';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+
+        color: red;
+    }
+` 
 
 const EntranceControl = styled.div`
     width: 326px;

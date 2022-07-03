@@ -1,6 +1,9 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../loaders/Loading";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
 
 function NewExitPage() {
 
@@ -9,14 +12,22 @@ function NewExitPage() {
 
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+    const { token } = useContext(UserContext);
+
 
     function login(event) {
         event.preventDefault()
 
         setIsLoading(true)
 
-        setTimeout(() => navigate("/registers"), 5000)
+        const URL = "http://localhost:5000/insert-value?type=subtract";
+        const body = { description, value };
 
+        const config = { headers: { "Authorization": `Bearer ${token}` } };
+        const promise = axios.post(URL, body, config);
+
+        promise.then(_res => { setIsLoading(false); navigate("/registers") })
+            .catch(err => { alert(err.response.statusText); navigate("/") });
     }
 
     return (
@@ -24,6 +35,7 @@ function NewExitPage() {
             <h2>Nova saída</h2>
             <Forms onSubmit={login}>
                 <input type="number"
+                    min={1}
                     onChange={e => setValue(e.target.value)}
                     value={value}
                     disabled={isLoading}
@@ -38,7 +50,7 @@ function NewExitPage() {
                     required />
 
                 <button disabled={isLoading}>
-                    {isLoading ? "Inativo" : "Salvar Saída"}
+                    {isLoading ? <Loading /> : "Salvar Saída"}
                 </button>
             </Forms>
         </Container>

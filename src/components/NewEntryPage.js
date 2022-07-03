@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "../loaders/Loading";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 
@@ -34,6 +35,7 @@ function NewEntryPage() {
             <h2>Nova entrada</h2>
             <Forms onSubmit={login}>
                 <input type="number"
+                    min={1}
                     onChange={e => setValue(e.target.value)}
                     value={value}
                     disabled={isLoading}
@@ -48,7 +50,7 @@ function NewEntryPage() {
                     required />
 
                 <button disabled={isLoading}>
-                    {isLoading ? "Inativo" : "Salvar Entrada"}
+                    {isLoading ? <Loading /> : "Salvar Entrada"}
                 </button>
             </Forms>
         </Container>

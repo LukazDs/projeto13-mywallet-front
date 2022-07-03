@@ -14,9 +14,10 @@ import React from "react";
 function App() {
 
     const [token, setToken] = React.useState("");
+    const [name, setName] = React.useState("");
 
     return (
-        <UserContext.Provider value={{ token, setToken }}>
+        <UserContext.Provider value={{ token, setToken, name, setName }}>
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
