@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-import Loading from "../loaders/Loading";
 import axios from "axios";
 
 function RegistersPage() {
@@ -51,9 +50,11 @@ function RegistersPage() {
         <Container>
             <Top>
                 <h2>Olá, {name}</h2>
-                {!isLoading
-                    ? <ion-icon name="exit-outline"></ion-icon>
-                    : <Loading />}
+                <ion-icon 
+                    name="exit-outline"
+                    onClick={() => navigate("/")}>
+                    
+                </ion-icon>
             </Top>
             <Registers>
                 {registers.length === 0

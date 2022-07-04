@@ -34,7 +34,6 @@ function LoginPage() {
                 .catch(err => { 
                     setIsLoading(false); 
                     alert(err.response.statusText)})
-
     }
 
     return (
@@ -134,5 +133,6 @@ const Forms = styled.form`
         text-align: center;
         background: #a103fc;
         border: none;
+        cursor: pointer;
     }
 `

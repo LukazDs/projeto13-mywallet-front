@@ -143,5 +143,6 @@ const Forms = styled.form`
         background: #a103fc;
         color: #FFFFFF;
         border: none;
+        cursor: pointer;
     }
 `;
