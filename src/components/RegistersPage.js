@@ -71,7 +71,7 @@ function RegistersPage() {
                         </Item>
                         <Result isPositive={resultValue()}>
                             <span className="text">SALDO</span>
-                            <span className="value-result">{resultValue()}</span>
+                            <span className="value-result">{resultValue()},00</span>
                         </Result>
                     </>
                 }
