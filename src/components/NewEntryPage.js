@@ -22,7 +22,7 @@ function NewEntryPage() {
 
         setIsLoading(true)
 
-        const URL = "http://localhost:5000/insert-value?type=add";
+        const URL = "https://mywalletcount.herokuapp.com/insert-value?type=add";
         const body = { description, value };
         
         const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };

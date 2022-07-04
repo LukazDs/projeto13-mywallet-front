@@ -22,7 +22,7 @@ function NewExitPage() {
 
         setIsLoading(true)
 
-        const URL = "http://localhost:5000/insert-value?type=subtract";
+        const URL = "https://mywalletcount.herokuapp.com/insert-value?type=subtract";
         const body = { description, value };
 
         const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };

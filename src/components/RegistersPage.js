@@ -16,7 +16,7 @@ function RegistersPage() {
 
     useEffect(() => {
         setIsLoading(false);
-        const URL = "http://localhost:5000/userdata";
+        const URL = "https://mywalletcount.herokuapp.com/userdata";
         const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.get(URL, config);
 
