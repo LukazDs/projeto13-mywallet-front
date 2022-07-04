@@ -14,6 +14,8 @@ function NewExitPage() {
     const navigate = useNavigate();
     const { token } = useContext(UserContext);
 
+    const tokenValid = !token ? localStorage.getItem("token") : token;
+
 
     function login(event) {
         event.preventDefault()
@@ -23,7 +25,7 @@ function NewExitPage() {
         const URL = "http://localhost:5000/insert-value?type=subtract";
         const body = { description, value };
 
-        const config = { headers: { "Authorization": `Bearer ${token}` } };
+        const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.post(URL, body, config);
 
         promise.then(_res => { setIsLoading(false); navigate("/registers") })

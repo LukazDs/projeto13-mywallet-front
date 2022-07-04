@@ -12,12 +12,13 @@ function RegistersPage() {
 
     const [registers, setRegisters] = useState([]);
     const { token, name, setName } = useContext(UserContext);
-    const [result, setResult] = useState(0);
+
+    const tokenValid = !token ? localStorage.getItem("token") : token;
 
     useEffect(() => {
         setIsLoading(false);
         const URL = "http://localhost:5000/userdata";
-        const config = { headers: { "Authorization": `Bearer ${token}` } };
+        const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.get(URL, config);
 
         promise
@@ -26,7 +27,6 @@ function RegistersPage() {
                 setIsLoading(false);
                 setName(res.data.name);
                 navigate("/registers");
-                resultValue()
             })
             .catch(err => {
                 alert(err.response.statusText);
@@ -34,10 +34,10 @@ function RegistersPage() {
             });
     }, [])
 
-    function resultValue () {
+    function resultValue() {
         let cont = 0
-        for(let i = 0; i < registers.length; i ++) {
-            if(registers[i].type === "add") {
+        for (let i = 0; i < registers.length; i++) {
+            if (registers[i].type === "add") {
                 cont += Number(registers[i].value);
             } else {
                 cont -= Number(registers[i].value);
@@ -45,7 +45,7 @@ function RegistersPage() {
         }
         return cont;
     }
-    
+
 
     return (
         <Container>
@@ -58,20 +58,22 @@ function RegistersPage() {
             <Registers>
                 {registers.length === 0
                     ? <span>Não há registros de entrada ou saída</span>
-                    : <Item>
-                       {registers.map((v, i) =>  
-                        <Element key={i} licensed={v.type}>
-                            <span className="time">{v.time}</span>
-                            <span className="description">{v.description}</span>
-                            <span className="value">{v.value},00</span>
-                        </Element>)}
-                        
-                    </Item>}
-                <Result isPositive={resultValue()}>
-                    <span className="text">SALDO</span> 
-                    <span className="value-result">{resultValue()}</span>
-                </Result>
+                    : <>
+                        <Item>
+                            {registers.map((v, i) =>
+                                <Element key={i} licensed={v.type}>
+                                    <span className="time">{v.time}</span>
+                                    <span className="description">{v.description}</span>
+                                    <span className="value">{v.value},00</span>
+                                </Element>)}
 
+                        </Item>
+                        <Result isPositive={resultValue()}>
+                            <span className="text">SALDO</span>
+                            <span className="value-result">{resultValue()}</span>
+                        </Result>
+                    </>
+                }
 
             </Registers>
             <EntranceControl>
@@ -175,7 +177,7 @@ const Result = styled.div`
         line-height: 20px;
         color: #000000;
     }
-`; 
+`;
 
 const Item = styled.div`
     width: 100%;
@@ -239,7 +241,7 @@ const Element = styled.p`
 
         color: red;
     }
-` 
+`
 
 const EntranceControl = styled.div`
     width: 326px;

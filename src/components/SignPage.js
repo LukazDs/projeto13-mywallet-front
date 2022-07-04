@@ -26,7 +26,7 @@ function SignPage() {
         }
 
         const URL = "http://localhost:5000/sign-up";
-        const body = { name, password, email }
+        const body = { name, password, email, confirmPassword }
 
         const promise = axios.post(URL, body, {})
         promise.then(() => { setIsLoading(false); navigate("/") })

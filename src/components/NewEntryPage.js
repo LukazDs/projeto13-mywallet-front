@@ -15,6 +15,8 @@ function NewEntryPage() {
     const navigate = useNavigate();
     const { token } = useContext(UserContext);
 
+    const tokenValid = !token ? localStorage.getItem("token") : token;
+
     function login(event) {
         event.preventDefault()
 
@@ -23,7 +25,7 @@ function NewEntryPage() {
         const URL = "http://localhost:5000/insert-value?type=add";
         const body = { description, value };
         
-        const config = { headers: { "Authorization": `Bearer ${token}` } };
+        const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.post(URL, body, config);
 
         promise.then(res => { setIsLoading(false); navigate("/registers") })

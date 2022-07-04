@@ -25,8 +25,15 @@ function LoginPage() {
 
         const promise = axios.post(URL, body)
 
-        promise.then((res) => { setToken(res.data.token); setIsLoading(false); navigate("/registers") })
-            .catch(err => { setIsLoading(false); alert(err.response.statusText); })
+        promise.then((res) => { 
+                setToken(res.data.token); 
+                setIsLoading(false); 
+                localStorage.setItem("token", res.data.token);
+                navigate("/registers")})
+
+                .catch(err => { 
+                    setIsLoading(false); 
+                    alert(err.response.statusText)})
 
     }
 
