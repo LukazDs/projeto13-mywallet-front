@@ -20,12 +20,11 @@ function NewEntryPage() {
     useEffect(() => {
 
         if(!tokenValid) {
+            console.log("Para acessar essa pagina, você precisa estar logado!");
             navigate("/");
             return;
         }
-        
     }, [])
-
 
     function login(event) {
         event.preventDefault()

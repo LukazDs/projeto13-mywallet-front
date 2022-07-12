@@ -16,11 +16,15 @@ function NewExitPage() {
 
     const tokenValid = !token ? localStorage.getItem("token") : token;
 
-    if(!tokenValid) {
-        navigate("/");
-        console.log("Para acessar essa página é nescessário estar logado!")
-        return;
-    }
+    
+    useEffect(() => {
+
+        if(!tokenValid) {
+            console.log("Para acessar essa pagina, você precisa estar logado!");
+            navigate("/");
+            return;
+        }        
+    }, [])
 
     function login(event) {
         event.preventDefault()
