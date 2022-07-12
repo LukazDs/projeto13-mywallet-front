@@ -20,6 +20,7 @@ function NewExitPage() {
 
         if(!tokenValid) {
             navigate("/");
+            console.log("OKAY FUNFOU")
             return;
         }
         
