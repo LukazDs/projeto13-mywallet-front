@@ -26,10 +26,6 @@ function NewEntryPage() {
         
     }, [])
 
-    if(!tokenValid) {
-        navigate("/");
-        return;
-    }
 
     function login(event) {
         event.preventDefault()
@@ -38,6 +34,8 @@ function NewEntryPage() {
 
         const URL = "https://mywalletcount.herokuapp.com/insert-value?type=add";
         const body = { description, value };
+
+        console.log(tokenValid)
 
         const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.post(URL, body, config);
