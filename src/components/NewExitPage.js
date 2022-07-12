@@ -73,7 +73,7 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     background-color: #ad03fc;
-    display: flex;
+    display: ${props => props.disabled ? "flex" : "none"};
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
@@ -94,7 +94,7 @@ const Forms = styled.form`
     height: 222px;
     margin-top: 32px;
     margin-bottom: 25px;
-    display: ${props => props.disabled ? "flex" : "none"};
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
