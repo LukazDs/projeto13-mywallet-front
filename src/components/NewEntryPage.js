@@ -17,10 +17,15 @@ function NewEntryPage() {
 
     let tokenValid = !token ? localStorage.getItem("token") : token;
 
-    if(!tokenValid) {
-        navigate("/");
-        return;
-    }
+    useEffect(() => {
+
+        if(!tokenValid) {
+            navigate("/");
+            return;
+        }
+        
+    }, [])
+
 
     function login(event) {
         event.preventDefault()
