@@ -18,10 +18,9 @@ function NewExitPage() {
 
     if(!tokenValid) {
         navigate("/");
-        console.log("OKAY FUNFOU")
+        console.log("Para acessar essa página é nescessário estar logado!")
         return;
     }
-
 
     function login(event) {
         event.preventDefault()

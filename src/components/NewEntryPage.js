@@ -26,6 +26,11 @@ function NewEntryPage() {
         
     }, [])
 
+    if(!tokenValid) {
+        navigate("/");
+        return;
+    }
+
     function login(event) {
         event.preventDefault()
 
