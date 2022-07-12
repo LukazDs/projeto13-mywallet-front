@@ -14,7 +14,7 @@ function NewExitPage() {
     const navigate = useNavigate();
     const { token } = useContext(UserContext);
 
-    const tokenValid = !token ? localStorage.getItem("token") : token;
+    let tokenValid = !token ? localStorage.getItem("token") : token;
 
     
     useEffect(() => {
