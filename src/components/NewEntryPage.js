@@ -17,10 +17,6 @@ function NewEntryPage() {
 
     const tokenValid = !token ? localStorage.getItem("token") : token;
 
-    if(!tokenValid) {
-        navigate("/");
-    }
-
     function login(event) {
         event.preventDefault()
 
@@ -28,39 +24,46 @@ function NewEntryPage() {
 
         const URL = "https://mywalletcount.herokuapp.com/insert-value?type=add";
         const body = { description, value };
-        
+
         const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.post(URL, body, config);
 
         promise.then(res => { setIsLoading(false); navigate("/registers") })
-            .catch(err => { alert(err.response.statusText); navigate("/") });
+            .catch(err => { alert(err.response.data) });
     }
 
-    return (
-        <Container>
-            <h2>Nova entrada</h2>
-            <Forms onSubmit={login}>
-                <input type="number"
-                    min={1}
-                    onChange={e => setValue(e.target.value)}
-                    value={value}
-                    disabled={isLoading}
-                    placeholder="Valor"
-                    required />
+    if (!tokenValid) {
 
-                <input type="text"
-                    onChange={e => setDescription(e.target.value)}
-                    value={description}
-                    disabled={isLoading}
-                    placeholder="Descrição"
-                    required />
+        return (
+            <Container>
+                <h2>Nova entrada</h2>
+                <Forms onSubmit={login}>
+                    <input type="number"
+                        min={1}
+                        onChange={e => setValue(e.target.value)}
+                        value={value}
+                        disabled={isLoading}
+                        placeholder="Valor"
+                        required />
 
-                <button disabled={isLoading}>
-                    {isLoading ? <Loading /> : "Salvar Entrada"}
-                </button>
-            </Forms>
-        </Container>
-    )
+                    <input type="text"
+                        onChange={e => setDescription(e.target.value)}
+                        value={description}
+                        disabled={isLoading}
+                        placeholder="Descrição"
+                        required />
+
+                    <button disabled={isLoading}>
+                        {isLoading ? <Loading /> : "Salvar Entrada"}
+                    </button>
+                </Forms>
+            </Container>
+        )
+
+    } else {
+        
+        navigate("/");
+    }
 }
 
 export default NewEntryPage;
