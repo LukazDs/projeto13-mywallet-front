@@ -13,6 +13,8 @@ function NewExitPage() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const { token } = useContext(UserContext);
+
+    const tokenValid = !token ? localStorage.getItem("token") : token;
     
     useEffect(() => {
 
@@ -31,7 +33,7 @@ function NewExitPage() {
         const URL = "https://mywalletcount.herokuapp.com/insert-value?type=subtract";
         const body = { description, value };
 
-        const tokenValid = !token ? localStorage.getItem("token") : token;
+        tokenValid = !token ? localStorage.getItem("token") : token;
 
         const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.post(URL, body, config);

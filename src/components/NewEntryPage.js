@@ -15,6 +15,8 @@ function NewEntryPage() {
     const navigate = useNavigate();
     const { token } = useContext(UserContext);
 
+    const tokenValid = !token ? localStorage.getItem("token") : token;
+
     useEffect(() => {
 
         if(!tokenValid) {
@@ -29,7 +31,7 @@ function NewEntryPage() {
 
         setIsLoading(true)
 
-        const tokenValid = !token ? localStorage.getItem("token") : token;
+        tokenValid = !token ? localStorage.getItem("token") : token;
 
         const URL = "https://mywalletcount.herokuapp.com/insert-value?type=add";
         const body = { description, value };
