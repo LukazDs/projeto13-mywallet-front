@@ -20,7 +20,6 @@ function NewExitPage() {
     useEffect(() => {
 
         if(!tokenValid) {
-            console.log("Para acessar essa pagina, você precisa estar logado!");
             navigate("/");
             return;
         }        
