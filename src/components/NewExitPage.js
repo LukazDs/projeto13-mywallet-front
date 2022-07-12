@@ -16,15 +16,11 @@ function NewExitPage() {
 
     const tokenValid = !token ? localStorage.getItem("token") : token;
 
-    useEffect(() => {
-
-        if(!tokenValid) {
-            navigate("/");
-            console.log("OKAY FUNFOU")
-            return;
-        }
-        
-    }, [])
+    if(!tokenValid) {
+        navigate("/");
+        console.log("OKAY FUNFOU")
+        return;
+    }
 
 
     function login(event) {
