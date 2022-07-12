@@ -31,7 +31,12 @@ function SignPage() {
         const promise = axios.post(URL, body, {})
         promise
             .then(() => { setIsLoading(false); navigate("/") })
-            .catch(err => alert(err.message))
+            .catch(err => {
+                if (err.response.status !== 409) {
+                    alert(err.response.data)
+                    setIsLoading(false)
+                }
+            })
     }
 
     return (
