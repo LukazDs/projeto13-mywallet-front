@@ -94,7 +94,7 @@ const Forms = styled.form`
     height: 222px;
     margin-top: 32px;
     margin-bottom: 25px;
-    display: ${props.disabled ? "flex" : "none"};
+    display: ${props => props.disabled ? "flex" : "none"};
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
