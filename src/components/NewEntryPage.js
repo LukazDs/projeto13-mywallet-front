@@ -17,6 +17,10 @@ function NewEntryPage() {
 
     const tokenValid = !token ? localStorage.getItem("token") : token;
 
+    if(!tokenValid) {
+        navigate("/");
+    }
+
     function login(event) {
         event.preventDefault()
 
