@@ -15,11 +15,10 @@ function NewEntryPage() {
     const navigate = useNavigate();
     const { token } = useContext(UserContext);
 
-    let tokenValid = !token ? localStorage.getItem("token") : token;
-
     useEffect(() => {
 
         if(!tokenValid) {
+            console.log("Para ver o conteúdo de tal rota é nescessário logar!");
             navigate("/");
             return;
         }
@@ -29,6 +28,8 @@ function NewEntryPage() {
         event.preventDefault()
 
         setIsLoading(true)
+
+        const tokenValid = !token ? localStorage.getItem("token") : token;
 
         const URL = "https://mywalletcount.herokuapp.com/insert-value?type=add";
         const body = { description, value };
