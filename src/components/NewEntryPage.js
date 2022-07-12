@@ -31,8 +31,6 @@ function NewEntryPage() {
 
         setIsLoading(true)
 
-        tokenValid = !token ? localStorage.getItem("token") : token;
-
         const URL = "https://mywalletcount.herokuapp.com/insert-value?type=add";
         const body = { description, value };
 
@@ -44,7 +42,7 @@ function NewEntryPage() {
     }
 
     return (
-        <Container>
+        <Container disabled={tokenValid}>
             <h2>Nova entrada</h2>
             <Forms onSubmit={login}>
                 <input type="number"
@@ -76,7 +74,7 @@ const Container = styled.div`
     width: 100%;
     height: 100vh;
     background-color: #ad03fc;
-    display: flex;
+    display: ${props.disabled ? "flex" : "none"};
     flex-direction: column;
     align-items: center;
     justify-content: space-around;

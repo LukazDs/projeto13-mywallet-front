@@ -33,8 +33,6 @@ function NewExitPage() {
         const URL = "https://mywalletcount.herokuapp.com/insert-value?type=subtract";
         const body = { description, value };
 
-        tokenValid = !token ? localStorage.getItem("token") : token;
-
         const config = { headers: { "Authorization": `Bearer ${tokenValid}` } };
         const promise = axios.post(URL, body, config);
 
@@ -43,7 +41,7 @@ function NewExitPage() {
     }
 
     return (
-        <Container>
+        <Container disabled={tokenValid}>
             <h2>Nova saída</h2>
             <Forms onSubmit={login}>
                 <input type="number"
@@ -96,7 +94,7 @@ const Forms = styled.form`
     height: 222px;
     margin-top: 32px;
     margin-bottom: 25px;
-    display: flex;
+    display: ${props.disabled ? "flex" : "none"};
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
