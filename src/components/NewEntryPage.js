@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../loaders/Loading";
 import UserContext from "../contexts/UserContext";
@@ -17,6 +17,15 @@ function NewEntryPage() {
 
     const tokenValid = !token ? localStorage.getItem("token") : token;
 
+    useEffect(() => {
+
+        if(!tokenValid) {
+            navigate("/");
+            return;
+        }
+        
+    }, [])
+
     function login(event) {
         event.preventDefault()
 
@@ -29,41 +38,34 @@ function NewEntryPage() {
         const promise = axios.post(URL, body, config);
 
         promise.then(res => { setIsLoading(false); navigate("/registers") })
-            .catch(err => { alert(err.response.data) });
+            .catch(err => { setIsLoading(false); alert(err.response.data) });
     }
 
-    if (!tokenValid) {
+    return (
+        <Container>
+            <h2>Nova entrada</h2>
+            <Forms onSubmit={login}>
+                <input type="number"
+                    min={1}
+                    onChange={e => setValue(e.target.value)}
+                    value={value}
+                    disabled={isLoading}
+                    placeholder="Valor"
+                    required />
 
-        return (
-            <Container>
-                <h2>Nova entrada</h2>
-                <Forms onSubmit={login}>
-                    <input type="number"
-                        min={1}
-                        onChange={e => setValue(e.target.value)}
-                        value={value}
-                        disabled={isLoading}
-                        placeholder="Valor"
-                        required />
+                <input type="text"
+                    onChange={e => setDescription(e.target.value)}
+                    value={description}
+                    disabled={isLoading}
+                    placeholder="Descrição"
+                    required />
 
-                    <input type="text"
-                        onChange={e => setDescription(e.target.value)}
-                        value={description}
-                        disabled={isLoading}
-                        placeholder="Descrição"
-                        required />
-
-                    <button disabled={isLoading}>
-                        {isLoading ? <Loading /> : "Salvar Entrada"}
-                    </button>
-                </Forms>
-            </Container>
-        )
-
-    } else {
-        
-        navigate("/");
-    }
+                <button disabled={isLoading}>
+                    {isLoading ? <Loading /> : "Salvar Entrada"}
+                </button>
+            </Forms>
+        </Container>
+    )
 }
 
 export default NewEntryPage;

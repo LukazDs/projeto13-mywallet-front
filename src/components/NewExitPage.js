@@ -16,6 +16,15 @@ function NewExitPage() {
 
     const tokenValid = !token ? localStorage.getItem("token") : token;
 
+    useEffect(() => {
+
+        if(!tokenValid) {
+            navigate("/");
+            return;
+        }
+        
+    }, [])
+
 
     function login(event) {
         event.preventDefault()
@@ -29,7 +38,7 @@ function NewExitPage() {
         const promise = axios.post(URL, body, config);
 
         promise.then(_res => { setIsLoading(false); navigate("/registers") })
-            .catch(err => { alert(err.response.statusText); navigate("/") });
+            .catch(err => { alert(err.response.data); navigate("/") });
     }
 
     return (
