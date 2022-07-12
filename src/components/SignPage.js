@@ -20,8 +20,8 @@ function SignPage() {
         setIsLoading(true)
 
         if (confirmPassword !== password) {
-            alert("Senha e confirme senha são diferentes!");
             setIsLoading(false);
+            alert("Senha e confirme senha são diferentes!");
             return;
         }
 
