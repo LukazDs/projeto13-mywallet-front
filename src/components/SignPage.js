@@ -29,8 +29,9 @@ function SignPage() {
         const body = { name, password, email, confirmPassword }
 
         const promise = axios.post(URL, body, {})
-        promise.then(() => { setIsLoading(false); navigate("/") })
-
+        promise
+            .then(() => { setIsLoading(false); navigate("/") })
+            .catch(err => alert(err.message))
     }
 
     return (

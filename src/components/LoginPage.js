@@ -33,7 +33,7 @@ function LoginPage() {
 
                 .catch(err => { 
                     setIsLoading(false); 
-                    alert(err.response.statusText)})
+                    alert(err.message)})
     }
 
     return (
